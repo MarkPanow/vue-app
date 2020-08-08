@@ -24,52 +24,53 @@
   </div>
 </template>
 
-<script lang>
-export default {
-  name: "employee-form",
-  data() {
-    return {
-      error: false,
-      submitting: false,
-      success: false,
-      employee: {
-        name: "",
-        email: "",
-      },
-    };
-  },
-  computed: {
-    invalidName() {
-      return this.employee.name === "";
-    },
-    invalidEmail() {
-      return this.employee.email === "";
-    },
-  },
-  methods: {
-    handleSubmit() {
-      this.clearStatus();
-      this.submitting = true;
-      if (this.invalidName || this.invalidEmail) {
-        this.error = true;
-        return;
-      }
-      this.$emit("add:employee", this.employee);
-      this.$refs.first.focus();
-      this.employee = {
-        name: "",
-        email: "",
-      };
-      this.success = true;
-      this.error = false;
-      this.submitting = false;
-    },
-    clearStatus() {
-      this.success = false;
-      this.error = false;
-    },
-  },
-};
+<script lang="ts">
+import { Component, Vue} from 'vue-property-decorator'
+@Component
+export default class EmployeeForm extends Vue {
+
+    public error: boolean = false
+    public submitting: boolean = false
+    public success: boolean = false
+    public employee: object = {
+        name: string =""
+        email: string =""
+    }
+
+    constructor(parameters) {
+    }
+
+    get invalidName(): boolean {
+        return this.employee.name === "";
+    }
+
+    get invalidEmail(): boolean {
+        return this.employee.email === "";
+    }
+
+    public handleSubmit(): void {
+        this.clearStatus();
+        this.submitting = true;
+        if (this.invalidName || this.invalidEmail) {
+          this.error = true;
+          return;
+        }
+        this.$emit("add:employee", this.employee);
+        this.$refs.first.focus();
+        this.employee = {
+          name: "",
+          email: "",
+        };
+        this.success = true;
+        this.error = false;
+        this.submitting = false;
+    }
+
+    public clearStatus(): void {
+        this.success = false;
+        this.error = false;
+    }
+}
 </script>
 
 <style scoped>
